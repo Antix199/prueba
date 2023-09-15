@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 
 public class Finanzas {
     private static Scanner scanner = new Scanner(System.in);
-    protected static double saldoActual = 0;
+    private static double saldoActual = 0;
     private static int numCategorias = 5;
     private static double[] gastosPorCategoria = new double[numCategorias];
     private static double totalGastado = 0;
@@ -26,28 +26,6 @@ public class Finanzas {
         for (int i = 0; i < numCategorias; i++) {
             productosPorCategoria[i] = new ArrayList<>();
         }
-    }
-
-    private static double validarEntradaUsuario() {
-        while (true) {
-            try {
-                double valor = scanner.nextDouble();
-                scanner.nextLine();
-                return valor;
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada no válida. Por favor, ingresa un número.");
-                scanner.nextLine();
-            }
-        }
-    }
-
-    private static void mostrarMenu() {
-        System.out.println("Fondos totales: $" + saldoActual);
-        System.out.println("¿Qué deseas hacer?");
-        System.out.println("1. Añadir dinero a los fondos totales");
-        System.out.println("2. Registrar un gasto");
-        System.out.println("3. Revisar gastos por categoría");
-        System.out.println("4. Salir");
     }
 
     private static void ejecutarMenu() {
@@ -74,7 +52,16 @@ public class Finanzas {
         }
     }
 
-    protected static void anadirDinero() {
+    private static void mostrarMenu() {
+        System.out.println("Fondos totales: $" + saldoActual);
+        System.out.println("¿Qué deseas hacer?");
+        System.out.println("1. Añadir dinero a los fondos totales");
+        System.out.println("2. Registrar un gasto");
+        System.out.println("3. Revisar gastos por categoría");
+        System.out.println("4. Salir");
+    }
+
+    private static void anadirDinero() {
         System.out.print("Ingresa la cantidad a añadir: $");
         double cantidadAAnadir = validarEntradaUsuario();
         if (cantidadAAnadir > 0){
@@ -85,7 +72,7 @@ public class Finanzas {
 
     }
 
-    protected static void restarDinero() {
+    private static void restarDinero() {
         System.out.print("Ingresa la cantidad a restar: $");
         double cantidadARestar = validarEntradaUsuario();
         if (cantidadARestar > 0){
@@ -108,11 +95,6 @@ public class Finanzas {
         }
     }
 
-    private static String obtenerNombreProducto() {
-        System.out.print("Ingresa el nombre del producto: ");
-        return scanner.nextLine();
-    }
-
     private static void registrarGasto(double cantidadARestar, int categoriaSeleccionada, String nombreProducto) {
         saldoActual -= cantidadARestar;
         gastosPorCategoria[categoriaSeleccionada - 1] += cantidadARestar;
@@ -120,6 +102,12 @@ public class Finanzas {
         productosPorCategoria[categoriaSeleccionada - 1].add(nombreProducto);
         System.out.println("Gasto registrado en la categoría: " + categorias[categoriaSeleccionada - 1]);
     }
+
+    private static String obtenerNombreProducto() {
+        System.out.print("Ingresa el nombre del producto: ");
+        return scanner.next();
+    }
+
 
     private static void mostrarGastosPorCategoria() {
         System.out.println("Porcentaje gastado por categoría:");
@@ -143,5 +131,19 @@ public class Finanzas {
         System.out.println("¡Hasta luego!");
         scanner.close();
         System.exit(0);
+    }
+
+
+    private static double validarEntradaUsuario() {
+        while (true) {
+            try {
+                double valor = scanner.nextDouble();
+                scanner.nextLine();
+                return valor;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada no válida. Por favor, ingresa un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }
